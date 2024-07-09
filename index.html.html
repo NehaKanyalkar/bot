@@ -1,0 +1,319 @@
+<!doctype html>
+ <html lang="en">
+   <head>
+     <title>Saturn</title>
+     <!--
+       This styling is for the Web Chat demonstration purposes.
+       It is recommended that style is moved to a separate file for organization in larger projects.
+
+       Please visit https://github.com/microsoft/BotFramework-WebChat for details about Web Chat.
+     -->
+     <style>
+       html,
+       body {
+         height: 100%;
+       }
+
+       body {
+         margin: 0;
+       }
+
+       h1 {
+         color: white;
+         font-family: Segoe UI;
+         font-size: 18px;
+         line-height: 20px;
+         margin: 0;
+         padding: 20px 0px;
+         z-index: 1;
+       }
+       .logo{
+        position: relative;
+ 
+}
+.logo img{
+  left: 50px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0px 0px;
+  padding: 10px 10px;
+}
+       .circle {
+          background: #004c88;
+          border-radius: 50%;
+          height: 80px;
+          width: 50%;
+          margin-left: 0;
+          z-index: 0;
+        }
+
+       #banner {
+        font-family: Segoe UI;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background-color: #004c88;
+         display: flex;
+         height: 60px;
+         z-index: 1;
+       }
+       
+       .border {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+.wave_image img{
+  height: 90px;
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+}
+        
+        /* .box {
+                --mask:
+                  radial-gradient(301.87px at 50% calc(100% - 401px),#000 99%,#0000 101%) calc(50% - 270px) 0/540px 100%,
+                  radial-gradient(301.87px at 50% calc(100% + 270px),#0000 99%,#000 101%) 50% calc(100% - 135px)/540px 100% repeat-x;
+                -webkit-mask: var(--mask);
+                        mask: var(--mask);
+        } */
+
+       #webchat {
+         height: calc(100% - 80px);
+         overflow: hidden;
+         position: fixed;
+         top: 80px;
+         width: 100%;
+       }
+     </style>
+   </head>
+   <body>
+     <div>
+      
+       <div id="banner" class="box">
+        <div class="wave_image"><img src="https://postimage.me/images/2024/07/04/Card-3.png" alt="Card 3" ></div>
+        <div class="logo">
+          <img  src="https://postimage.me/images/2024/07/04/Saturn-1.png" alt="Saturn 1" ,border="0">
+        </div>
+         <h1>Saturn</h1>
+       </div>
+    
+       <div id="webchat" role="main"></div>
+     </div>
+   
+
+     <!--
+       In this sample, the latest version of Web Chat is being used.
+       In production environment, the version number should be pinned and version bump should be done frequently.
+
+       Please visit https://github.com/microsoft/BotFramework-WebChat/tree/main/CHANGELOG.md for changelog.
+     -->
+     <script crossorigin="anonymous" src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+     <script>
+       (async function () {
+         // Specifies style options to customize the Web Chat canvas.
+         // Please visit https://microsoft.github.io/BotFramework-WebChat for customization samples.
+         const styleOptions = {
+           // Hide upload button.
+           hideUploadButton: true,
+           //bubble
+            bubbleBackground: '#cce8ff',
+            bubbleBorderColor: '#E6E6E6',
+            bubbleBorderRadius: 15,
+            bubbleBorderStyle: 'solid',
+            bubbleBorderWidth: 1,
+            bubbleFromUserBackground: '#ffe2cc',
+            bubbleFromUserBorderColor: '#E6E6E6',
+            bubbleFromUserBorderRadius: 15,
+            bubbleFromUserBorderStyle: 'solid',
+            bubbleFromUserBorderWidth: 1,
+            bubbleFromUserNubOffset: 0,
+            bubbleFromUserNubSize: undefined,
+            bubbleFromUserTextColor: 'Black',
+            bubbleImageHeight: 240,
+            bubbleMaxWidth: 480, // Based off screen width = 600px
+            bubbleMinHeight: 40,
+            bubbleMinWidth: 250, // min screen width = 300px; Microsoft Edge requires 372px (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/13621468/)
+            bubbleNubOffset: 0,
+            bubbleNubSize: undefined,
+            bubbleTextColor: 'Black',
+            messageActivityWordBreak: 'break-word',
+
+            // Send box
+            hideSendBox: false,
+            hideUploadButton: true,
+            hideTelephoneKeypadButton: true,
+            microphoneButtonColorOnDictate: '#F33',
+            sendBoxBackground: 'White',
+            uploadAccept: undefined,
+            uploadMultiple: true,
+            sendAttachmentOn: 'send',
+
+            // Send box buttons
+            sendBoxButtonColor: '#004c88',
+            sendBoxButtonShadeColor: undefined,
+
+            sendBoxButtonColorOnActive: undefined,
+            sendBoxButtonShadeColorOnActive: '#EDEBE9',
+
+            sendBoxButtonColorOnDisabled: '#A19F9D',
+            sendBoxButtonShadeColorOnDisabled: '#F3F2F1',
+
+            sendBoxButtonColorOnFocus: undefined,
+            sendBoxButtonShadeColorOnFocus: undefined,
+
+            sendBoxButtonColorOnHover: 'white',
+            sendBoxButtonShadeColorOnHover: '#004c88',
+
+            sendBoxButtonShadeBorderRadius: 2,
+            sendBoxButtonShadeInset: 2,
+
+            sendBoxButtonKeyboardFocusIndicatorBorderColor: '#605E5C',
+            sendBoxButtonKeyboardFocusIndicatorBorderRadius: 0,
+            sendBoxButtonKeyboardFocusIndicatorBorderStyle: 'solid',
+            sendBoxButtonKeyboardFocusIndicatorBorderWidth: 1,
+            sendBoxButtonKeyboardFocusIndicatorInset: 4,
+
+            sendBoxDisabledTextColor: undefined,
+            sendBoxHeight: 40,
+            sendBoxMaxHeight: 200,
+            sendBoxTextColor: 'Black',
+            // TODO: We should deprecate this because there isn't an easy way to make the width of the send box narrower than the transcript
+            sendBoxBorderBottom: undefined,
+            sendBoxBorderLeft: undefined,
+            sendBoxBorderRight: undefined,
+            sendBoxBorderTop: 'solid 1px #E6E6E6',
+            sendBoxPlaceholderColor: undefined,
+            sendBoxTextWrap: true,
+            sendBoxButtonAlignment: 'stretch',
+
+            // Suggested actions
+  suggestedActionBorderRadius: 15,
+  suggestedActionHeight: 40,
+  suggestedActionImageHeight: 20,
+  suggestedActionLayout: 'carousel',
+
+  suggestedActionBackgroundColor: 'White',
+  suggestedActionBorderColor: undefined,
+  suggestedActionBorderStyle: 'solid',
+  suggestedActionBorderWidth: 2,
+  suggestedActionTextColor: undefined,
+
+  suggestedActionBackgroundColorOnActive: '#EDEBE9',
+  suggestedActionBorderColorOnActive: undefined,
+  suggestedActionBorderStyleOnActive: undefined,
+  suggestedActionBorderWidthOnActive: undefined,
+  suggestedActionTextColorOnActive: undefined,
+
+  suggestedActionBackgroundColorOnDisabled: undefined,
+  suggestedActionBorderColorOnDisabled: '#E6E6E6',
+  suggestedActionBorderStyleOnDisabled: undefined,
+  suggestedActionBorderWidthOnDisabled: undefined,
+  suggestedActionTextColorOnDisabled: undefined,
+
+  suggestedActionBackgroundColorOnFocus: undefined,
+  suggestedActionBorderColorOnFocus: undefined,
+  suggestedActionBorderStyleOnFocus: undefined,
+  suggestedActionBorderWidthOnFocus: undefined,
+  suggestedActionTextColorOnFocus: undefined,
+
+  suggestedActionBackgroundColorOnHover: '#004c88',
+  suggestedActionBorderColorOnHover: undefined,
+  suggestedActionBorderStyleOnHover: undefined,
+  suggestedActionBorderWidthOnHover: undefined,
+  suggestedActionTextColorOnHover: "White",
+
+  suggestedActionKeyboardFocusIndicatorBorderColor: '#605E5C',
+  suggestedActionKeyboardFocusIndicatorBorderRadius: 0,
+  suggestedActionKeyboardFocusIndicatorBorderStyle: 'dashed',
+  suggestedActionKeyboardFocusIndicatorBorderWidth: 1,
+  suggestedActionKeyboardFocusIndicatorInset: 2,
+
+  suggestedActionActiveBackground: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionBackground: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionDisabledBackground: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionDisabledBorderColor: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionDisabledBorderStyle: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionDisabledBorderWidth: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionDisabledTextColor: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionFocusBackground: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+  suggestedActionHoverBackground: undefined, // Deprecated as of 4.15.0. Remove on or after 2023-09-16.
+
+         };
+
+         // Specifies the token endpoint URL.
+         // To get this value, visit Copilot Studio > Settings > Channels > Mobile app page.
+         const tokenEndpointURL = new URL('https://99fbc0b9cc8ae72aa20a741041982b.08.environment.api.powerplatform.com/powervirtualagents/botsbyschema/cr996_ltiMindtree/directline/token?api-version=2022-03-01-preview');
+
+         // Specifies the language the copilot and Web Chat should display in:
+         // - (Recommended) To match the page language, set it to document.documentElement.lang
+         // - To use current user language, set it to navigator.language with a fallback language
+         // - To use another language, set it to supported Unicode locale
+
+         // Setting page language is highly recommended.
+         // When page language is set, browsers will use native font for the respective language.
+
+         const locale = document.documentElement.lang || 'en'; // Uses language specified in <html> element and fallback to English (United States).
+         // const locale = navigator.language || 'ja-JP'; // Uses user preferred language and fallback to Japanese.
+         // const locale = 'zh-HAnt'; // Always use Chinese (Traditional).
+
+         const apiVersion = tokenEndpointURL.searchParams.get('api-version');
+
+         const [directLineURL, token] = await Promise.all([
+           fetch(new URL(`/powervirtualagents/regionalchannelsettings?api-version=${apiVersion}`, tokenEndpointURL))
+             .then(response => {
+               if (!response.ok) {
+                 throw new Error('Failed to retrieve regional channel settings.');
+               }
+
+               return response.json();
+             })
+             .then(({ channelUrlsById: { directline } }) => directline),
+           fetch(tokenEndpointURL)
+             .then(response => {
+               if (!response.ok) {
+                 throw new Error('Failed to retrieve Direct Line token.');
+               }
+
+               return response.json();
+             })
+             .then(({ token }) => token)
+         ]);
+
+         // The "token" variable is the credentials for accessing the current conversation.
+         // To maintain conversation across page navigation, save and reuse the token.
+
+         // The token could have access to sensitive information about the user.
+         // It must be treated like user password.
+
+         const directLine = WebChat.createDirectLine({ domain: new URL('v3/directline', directLineURL), token });
+
+         // Sends "startConversation" event when the connection is established.
+
+         const subscription = directLine.connectionStatus$.subscribe({
+           next(value) {
+             if (value === 2) {
+               directLine
+                 .postActivity({
+                   localTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                   locale,
+                   name: 'startConversation',
+                   type: 'event'
+                 })
+                 .subscribe();
+
+               // Only send the event once, unsubscribe after the event is sent.
+               subscription.unsubscribe();
+             }
+           }
+         });
+
+         WebChat.renderWebChat({ directLine, locale, styleOptions }, document.getElementById('webchat'));
+       })();
+     </script>
+   </body>
+ </html>
